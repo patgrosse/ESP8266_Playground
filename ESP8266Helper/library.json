@@ -1,0 +1,13 @@
+{
+	"name":"ESP8266Helper",
+	"description":"Utilities for ESP8266 board",
+	"authors":[
+		{
+			"name":"Patrick Grosse",
+			"maintainer":true
+		}
+	],
+	"version":"0.1",
+	"frameworks":"arduino",
+	"platforms":"espressif8266"
+}
