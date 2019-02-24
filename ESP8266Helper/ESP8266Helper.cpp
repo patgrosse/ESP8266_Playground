@@ -33,22 +33,17 @@ void setupStaticWiFi(String ssid, String passphrase, IPAddress ip,
 }
 
 bool ensureWiFi() {
-    Serial.print("[WIFI] Connecting to WiFi");
-    Serial.flush();
-    int counter = 0;
-    while (WiFiMulti.run() != WL_CONNECTED) {
-        if (counter > 8) {
-            Serial.println(
-                    "[WIFI] Could not connect to WiFi in 4 seconds! Aborting");
-            return false;
-        }
-        delay(500);
-        Serial.print(".");
+    if (!WiFi.isConnected()) {
+        Serial.print("[WIFI] Connecting to WiFi");
         Serial.flush();
-        counter++;
+        while (WiFiMulti.run() != WL_CONNECTED) {
+            delay(1000);
+            Serial.print(".");
+            Serial.flush();
+        }
+        Serial.printf("\n[WIFI] WiFi connected with IP ");
+        Serial.println(WiFi.localIP());
     }
-    Serial.printf("\n[WIFI] WiFi connected with IP ");
-    Serial.println(WiFi.localIP());
     return true;
 }
 
@@ -57,8 +52,9 @@ bool checkRefreshWiFi() {
     unsigned long current_ms = millis();
     bool ret = true;
     if (wifi_refresh_on <= current_ms) {
-        Serial.println("[WIFI] Refreshing WiFi connection...");
-        ret = ensureWiFi();
+        Serial.print("[WIFI] Refreshing WiFi connection...");
+        ret = (WiFiMulti.run() == WL_CONNECTED);
+        Serial.println(ret ? "success" : "failed");
         wifi_refresh_on = current_ms + WIFI_REFRESH_PERIOD;
     }
     return ret;
