@@ -2,7 +2,7 @@
 
 #include <ESP8266WebServer.h>
 #include <ESP8266Helper.h>
-#include "../.piolibdeps/ESPAsyncUDP_ID359/include/ESPAsyncUDP.h"
+#include <ESPAsyncUDP.h>
 
 #ifndef HTTP_PORT
 #define HTTP_PORT 80
